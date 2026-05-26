@@ -1411,7 +1411,14 @@
     btn.style.opacity = '.65';
 
     // Envio real via EmailJS
-    emailjs.sendForm('service_8uwd1z9', 'template_3i4dxm9', form)
+    emailjs.send('service_8uwd1z9', 'template_3i4dxm9', {
+      from_name:  document.getElementById('fname').value.trim(),
+      from_email: document.getElementById('femail').value.trim(),
+      company:    document.getElementById('fcompany').value.trim(),
+      phone:      document.getElementById('fphone').value.trim(),
+      service:    document.getElementById('fservice').value,
+      message:    document.getElementById('fmessage').value.trim()
+    })
       .then(function(response) {
         console.log('EmailJS OK:', response.status, response.text);
 
