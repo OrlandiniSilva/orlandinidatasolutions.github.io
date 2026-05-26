@@ -529,18 +529,18 @@ footer{background:var(--navy);border-top:1px solid rgba(255,255,255,.05);padding
     <div class="rv d2">
       <div class="fcard">
         <div class="frow">
-          <div class="fg"><label>Nome completo</label><input type="text" placeholder="Seu nome completo"></div>
-          <div class="fg"><label>Empresa</label><input type="text" placeholder="Nome da organização"></div>
+          <div class="fg"><label>Nome completo</label><input id="name" type="text" placeholder="Seu nome completo"></div>
+          <div class="fg"><label>Empresa</label><input id="company" type="text" placeholder="Nome da organização"></div>
         </div>
         <div class="frow">
-          <div class="fg"><label>E-mail</label><input type="email" placeholder="seu@email.com"></div>
-          <div class="fg"><label>Telefone</label><input type="tel" placeholder="(11) 99999-9999"></div>
+          <div class="fg"><label>E-mail</label><input id="email" type="email" placeholder="seu@email.com"></div>
+          <div class="fg"><label>Telefone</label><input id="phone" type="tel" placeholder="(11) 99999-9999"></div>
         </div>
         <div class="fg">
           <label>Serviço de interesse</label>
-          <select><option value="" disabled selected>Selecione um serviço</option><option>Análise de Dados em Saúde Pública</option><option>Inteligência de Mercado</option><option>Dashboard Interativo</option><option>Engenharia e Automação de Dados</option><option>Relatórios Estratégicos Mensais</option><option>Solução Enterprise</option></select>
+          <select id="service"><option value="" disabled selected>Selecione um serviço</option><option>Análise de Dados em Saúde Pública</option><option>Inteligência de Mercado</option><option>Dashboard Interativo</option><option>Engenharia e Automação de Dados</option><option>Relatórios Estratégicos Mensais</option><option>Solução Enterprise</option></select>
         </div>
-        <div class="fg"><label>Mensagem</label><textarea placeholder="Descreva brevemente seu projeto ou necessidade analítica..."></textarea></div>
+        <div class="fg"><label>Mensagem</label><textarea id="message" placeholder="Descreva brevemente seu projeto ou necessidade analítica..."></textarea></div>
         <button class="fsub" id="fsub" onclick="submitF()">Enviar Mensagem →</button>
       </div>
     </div>
@@ -594,15 +594,84 @@ function faqT(btn){
   if(!open)item.classList.add('on')
 }
 
+<script>
+
 function submitF(){
-  const b=document.getElementById('fsub')
-  b.textContent='Enviando...';b.style.opacity='.65'
-  setTimeout(()=>{
+
+  const b = document.getElementById('fsub')
+
+  b.textContent = 'Enviando...'
+  b.style.opacity = '.65'
+
+  const params = {
+    name: document.getElementById('name').value,
+    company: document.getElementById('company').value,
+    email: document.getElementById('email').value,
+    phone: document.getElementById('phone').value,
+    service: document.getElementById('service').value,
+    message: document.getElementById('message').value
+  }
+
+  emailjs.send(
+    'SEU_SERVICE_ID',
+    'SEU_TEMPLATE_ID',
+    params
+  )
+  .then(function(){
+
     b.textContent='✓ Mensagem enviada com sucesso!'
-    b.style.background='linear-gradient(135deg,#059669,#10b981)';b.style.opacity='1'
-    setTimeout(()=>{b.textContent='Enviar Mensagem →';b.style.background=''},3500)
-  },1300)
+    b.style.background='linear-gradient(135deg,#059669,#10b981)'
+    b.style.opacity='1'
+
+    setTimeout(()=>{
+      b.textContent='Enviar Mensagem →'
+      b.style.background=''
+    },3500)
+
+  })
+  .catch(function(error){
+
+    b.textContent='Erro ao enviar'
+    b.style.background='red'
+    b.style.opacity='1'
+
+    console.log(error)
+
+  })
+
 }
+
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+
+emailjs.init("7mRayazHDYoM-_g-q");
+
+function submitF(){
+
+  const b = document.getElementById('fsub')
+
+  const params = {
+    name: document.getElementById('name').value,
+    company: document.getElementById('company').value,
+    email: document.getElementById('email').value,
+    phone: document.getElementById('phone').value,
+    service: document.getElementById('service').value,
+    message: document.getElementById('message').value
+  }
+
+  emailjs.send(
+    'service_8uwd1z9',
+    'template_3i4dxm9',
+    params
+  )
+  .then(function(){
+    b.textContent='Mensagem enviada!'
+  })
+
+}
+
+</script> 
 </body>
 </html>
